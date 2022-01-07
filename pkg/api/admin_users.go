@@ -67,7 +67,10 @@ func AdminUpdateUserPassword(c *models.ReqContext) response.Response {
 	if err := web.Bind(c.Req, &form); err != nil {
 		return response.Error(http.StatusBadRequest, "bad request data", err)
 	}
-	userID := c.ParamsInt64(":id")
+	userID, err := c.ParamsInt64(":id")
+	if err != nil {
+		return response.Error(http.StatusBadRequest, "id is invalid", err)
+	}
 
 	if len(form.Password) < 4 {
 		return response.Error(400, "New password too short", nil)

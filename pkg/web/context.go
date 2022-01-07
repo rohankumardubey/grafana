@@ -16,6 +16,7 @@ package web
 
 import (
 	"encoding/json"
+	"errors"
 	"html/template"
 	"net/http"
 	"net/url"
@@ -180,10 +181,18 @@ func (ctx *Context) QueryInt64(name string) int64 {
 }
 
 // ParamsInt64 returns params result in int64 type.
+// when params is not integer, it will return error.
 // e.g. ctx.ParamsInt64(":uid")
-func (ctx *Context) ParamsInt64(name string) int64 {
-	n, _ := strconv.ParseInt(Params(ctx.Req)[name], 10, 64)
-	return n
+func (ctx *Context) ParamsInt64(name string) (int64, error) {
+	annotationIDStr, has := ctx.Req.URL.Query()[name]
+	if has && len(annotationIDStr) > 0 {
+		paramValue, err := strconv.ParseInt(annotationIDStr[0], 10, 64)
+		if err != nil {
+			return paramValue, errors.New(name + " has to be integer")
+		}
+		return paramValue, nil
+	}
+	return 0, errors.New(name + " is missing")
 }
 
 // GetCookie returns given cookie value from request header.

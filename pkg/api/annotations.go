@@ -164,7 +164,10 @@ func UpdateAnnotation(c *models.ReqContext) response.Response {
 	if err := web.Bind(c.Req, &cmd); err != nil {
 		return response.Error(http.StatusBadRequest, "bad request data", err)
 	}
-	annotationID := c.ParamsInt64(":annotationId")
+	annotationID, err := c.ParamsInt64(":annotationId")
+	if err != nil {
+		return response.Error(http.StatusBadRequest, "annotationId is missing or invalid", err)
+	}
 
 	repo := annotations.GetRepository()
 
