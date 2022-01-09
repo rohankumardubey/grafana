@@ -3733,7 +3733,7 @@ __metadata:
     marked: 4.0.9
     moment: 2.29.1
     moment-timezone: 0.5.34
-    ol: 6.9.0
+    ol: 6.11.0
     papaparse: 5.3.1
     react: 17.0.2
     react-dom: 17.0.2
@@ -19908,7 +19908,7 @@ __metadata:
     ngtemplate-loader: 2.1.0
     node-notifier: ^10.0.0
     nodemon: 2.0.15
-    ol: 6.9.0
+    ol: 6.11.0
     papaparse: 5.3.1
     pluralize: ^8.0.0
     postcss: 8.4.5
@@ -26391,7 +26391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^6.5.1":
+"ol-mapbox-style@npm:^6.7.0":
   version: 6.8.1
   resolution: "ol-mapbox-style@npm:6.8.1"
   dependencies:
@@ -26402,15 +26402,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol@npm:6.9.0":
-  version: 6.9.0
-  resolution: "ol@npm:6.9.0"
+"ol@npm:6.11.0":
+  version: 6.11.0
+  resolution: "ol@npm:6.11.0"
   dependencies:
     geotiff: ^1.0.8
-    ol-mapbox-style: ^6.5.1
+    ol-mapbox-style: ^6.7.0
     pbf: 3.2.1
     rbush: ^3.0.1
-  checksum: 79872ea243e5d40515e9a52f9ad3405d67672ab617b3bd2e721d088cd1673cd2c7c1d9cc57f64617a28ed47a1102aaae9e1599cbeb6ba4c453b9fb4a3995e273
+  checksum: beca107ffc2d53701601ef55bc386b430f52386b029b5cabf883909bc118693a1ff3653b4abf8235f65316ebf50b40f315e75d579626d584353c30295a9066c7
   languageName: node
   linkType: hard
 
