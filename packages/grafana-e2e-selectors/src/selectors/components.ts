@@ -319,4 +319,7 @@ export const Components = {
   ColorSwatch: {
     name: `data-testid-colorswatch`,
   },
+  UserProfileEditForm: {
+    save: 'data-testid-save',
+  },
 };
