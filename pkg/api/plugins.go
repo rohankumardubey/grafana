@@ -29,7 +29,7 @@ import (
 	"github.com/grafana/grafana/pkg/util/proxyutil"
 	"github.com/grafana/grafana/pkg/web"
 
-	"github.com/xeipuuv/gojsonschema"
+	"github.com/santhosh-tekuri/jsonschema"
 )
 
 func (hs *HTTPServer) GetPluginList(c *models.ReqContext) response.Response {
@@ -246,21 +246,23 @@ func (hs *HTTPServer) ImportDashboard(c *models.ReqContext) response.Response {
 	}
 
 	// here we can validate before import
-	schemaLoader := gojsonschema.NewReferenceLoader("../../packages/grafana-schema/jsonschema/dashboard.json")
-
-	// input dashboard json
-	dbbytes, _ := apiCmd.Dashboard.Bytes()
-	documentLoader := gojsonschema.NewBytesLoader(dbbytes)
-
-	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	compiler := jsonschema.NewCompiler()
+	compiler.Draft = jsonschema.Draft4
+	schema, err := compiler.Compile("../../packages/grafana-schema/jsonschema/dashboard.json")
 	if err != nil {
-		panic(err.Error())
+		return response.Error(500, "Import failed\n", errors.New("problem loading schema \n"+err.Error()))
 	}
 
-	if !result.Valid() {
+	dbbytes, _ := apiCmd.Dashboard.String()
+
+	err = schema.Validate(strings.NewReader(dbbytes))
+	valid := err == nil
+	if !valid {
 		var res string
-		for _, desc := range result.Errors() {
-			res += res + desc.String() + "\n"
+		if _, ok := err.(*jsonschema.ValidationError); ok {
+			for _, line := range strings.Split(err.(*jsonschema.ValidationError).Message, "\n") {
+				res += line + "\n"
+			}
 		}
 		return response.Error(500, "Import failed\n", errors.New("The dashboard is not valid. \n"+res))
 	}
