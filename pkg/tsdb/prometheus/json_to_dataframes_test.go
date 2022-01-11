@@ -67,7 +67,7 @@ func getResponse(responseBytes []byte, query PrometheusQuery) (backend.DataRespo
 
 	ctx := context.Background()
 
-	result, err := RunQueries(ctx, client, []*PrometheusQuery{&query})
+	result, err := runQueries(ctx, client, []*PrometheusQuery{&query})
 	if err != nil {
 		return backend.DataResponse{}, nil
 	}
